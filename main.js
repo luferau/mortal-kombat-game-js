@@ -1,43 +1,53 @@
-function createPlayer(className, player) {
-    // progressbar
-    const $life = document.createElement('div');
-    $life.classList.add('life');
-    $life.style.width = player.hp + '%';
+class Player {
+    constructor(className, playerData) {
+        // progressbar
+        const $life = document.createElement('div');
+        $life.classList.add('life');
+        $life.style.width = playerData.hp + '%';
 
-    const $name = document.createElement('div');
-    $name.classList.add('name');
-    $name.innerText = player.name;
+        const $name = document.createElement('div');
+        $name.classList.add('name');
+        $name.innerText = playerData.name;
 
-    const $progressbar = document.createElement('div');
-    $progressbar.classList.add('progressbar');
-    $progressbar.appendChild($life);
-    $progressbar.appendChild($name);
+        const $progressbar = document.createElement('div');
+        $progressbar.classList.add('progressbar');
+        $progressbar.appendChild($life);
+        $progressbar.appendChild($name);
 
-    // character
-    const $img = document.createElement('img');
-    $img.classList.add('img');
-    $img.src = player.img;
+        // character
+        const $img = document.createElement('img');
+        $img.classList.add('img');
+        $img.src = playerData.img;
 
-    const $character = document.createElement('div');
-    $character.classList.add('character');
+        const $character = document.createElement('div');
+        $character.classList.add('character');
 
-    $character.appendChild($img);
+        $character.appendChild($img);
 
-    // player
-    const $player = document.createElement('div');
-    $player.classList.add(className);
-    $player.appendChild($progressbar);
-    $player.appendChild($character);
+        // player
+        this.$player = document.createElement('div');
+        this.$player.classList.add(className);
+        this.$player.appendChild($progressbar);
+        this.$player.appendChild($character);
+    }
 
-    return $player;
+    get visual() {
+        return this.$player;
+    }
 }
 
-function addToArena($player) {
-    // find arenas
-    const $arenas = document.querySelector('.arenas');
-    $arenas.appendChild($player);
+class Arena {
+    constructor(className) {
+        // find arenas
+        this.$arena = document.querySelector('.' + className);
+    }
+
+    addPlayer(player) {
+        this.$arena.appendChild(player.visual);
+    }
 }
 
+// create players
 const playerScorpion = {
     name: 'Scorpion',
     hp: 50,
@@ -58,5 +68,18 @@ const playerSubzero = {
     }
 }
 
-addToArena(createPlayer('player1', playerScorpion));
-addToArena(createPlayer('player2', playerSubzero));
+const playerKenny = {
+    name: 'Kenny',
+    hp: 100,
+    img: 'https://kennythinks.neocities.org/kennyy.gif',
+    weapon: ['weapon5', 'weapon6'],
+    attack: function() {
+        console.log(this.name + ' - fight!');
+    }
+}
+
+const player1 = new Player('player1', playerKenny);
+const player2 = new Player('player2', playerSubzero);
+const arena = new Arena('arenas');
+arena.addPlayer(player1);
+arena.addPlayer(player2);
