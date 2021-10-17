@@ -1,27 +1,30 @@
+function createElement(tag, className) {
+    const $tag = document.createElement(tag);
+    if (className) {
+        $tag.classList.add(className)
+    }
+
+    return $tag;
+}
+
 class Player {
     constructor(className, playerData) {
         // progressbar
-        const $life = document.createElement('div');
-        $life.classList.add('life');
+        const $life = createElement('div', 'life');
         $life.style.width = playerData.hp + '%';
 
-        const $name = document.createElement('div');
-        $name.classList.add('name');
+        const $name = createElement('div', 'name');
         $name.innerText = playerData.name;
 
-        const $progressbar = document.createElement('div');
-        $progressbar.classList.add('progressbar');
+        const $progressbar = createElement('div', 'progressbar');
         $progressbar.appendChild($life);
         $progressbar.appendChild($name);
 
         // character
-        const $img = document.createElement('img');
-        $img.classList.add('img');
+        const $img = createElement('img', 'img');
         $img.src = playerData.img;
 
-        const $character = document.createElement('div');
-        $character.classList.add('character');
-
+        const $character = createElement('div', 'character');
         $character.appendChild($img);
 
         // player
